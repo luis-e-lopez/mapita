@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Local Station
+  - Local and Express Station
+  - Line Orange
+  - Line Red
+  - Line Yellow
+  - Line Green
+  - Local
+  - Express
+  - HOP-ON
+  - HOP-OFF
+  - GO TO
+  - IF
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Transport Lines
+    uniqueID: 4222644723
+    locked: 0
+  - name: Vehicles
+    uniqueID: 1536886169
+    locked: 0
+  - name: Stations
+    uniqueID: 1095344397
+    locked: 0
+  - name: player
+    uniqueID: 2456921499
+    locked: 0
+  - name: Controls
+    uniqueID: 1225683
+    locked: 0
