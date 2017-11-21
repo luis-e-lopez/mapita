@@ -8,22 +8,20 @@ public class SplineDecorator2 : MonoBehaviour {
 
 	public float pointSpacing = .01f;
 
-	LineRenderer line;
-	List<Vector2> points;
-
 	void Start() {
 		
 	}
 
 	private void Awake () {
 
-		line = GetComponent<LineRenderer> ();
-		points = new List<Vector2> ();
+		LineRenderer line = GetComponent<LineRenderer> ();
+		int count = 0;
 
 		for(float ps = 0; ps < 1f; ps = ps + pointSpacing) {
 			Vector3 position = spline.GetPoint(ps);
-			points.Add (position);
-			line.positionCount = points.Count;
+
+			count++;
+			line.positionCount = count;
 			line.SetPosition (line.positionCount - 1, position);
 
 		} 

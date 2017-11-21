@@ -79,7 +79,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	private void initPosition (){
 		count = -1;
-		this.transform.position = new Vector3 (6.54f, 1.06f, -0.1f);
+		this.transform.position = new Vector3 (6.54f, 1.06f, 0f);
 		currentLocation = stations[5];
 	}
 
