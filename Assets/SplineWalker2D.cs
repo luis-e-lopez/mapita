@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using AssemblyCSharp;
 
-public class SplineWalker2 : MonoBehaviour {
+public class SplineWalker2D : MonoBehaviour {
 
 	public BezierSpline spline;
 	public float speed = 3f;
@@ -11,7 +11,6 @@ public class SplineWalker2 : MonoBehaviour {
 	public float stopTime = 1f;
 	public string forwardDirection = "";
 	public string backwardDirection = "";
-	public bool isSprite = false;
 
 	private float progress;
 	private bool goingForward = true;
@@ -27,6 +26,11 @@ public class SplineWalker2 : MonoBehaviour {
 	private PlayerBehaviour player = null;
 
 	void Start () {
+		/*position = spline.GetPoint2(progress);
+		transform.localPosition = new Vector3(position.x, position.y);
+		Vector3 direction = spline.GetDirection (progress);
+		transform.Rotate (Vector3.forward * -direction.x * rotationSpeed);*/
+
 		position = spline.GetPoint(progress);
 		transform.localPosition = position;
 		constantSpeed = speed;
@@ -35,19 +39,6 @@ public class SplineWalker2 : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		if (GlobalProperties.isPaused) {
-			return;
-		}
-
-		if (constantSpeed == 0) {
-			accumulatedStopTime += Time.fixedDeltaTime;
-			if (accumulatedStopTime < stopTime) {
-				return;
-			}
-			closeDoors ();
-			currentStation = null;
-		}
 
 		if (goingForward) {
 			progress += Time.fixedDeltaTime * constantSpeed;
@@ -73,51 +64,28 @@ public class SplineWalker2 : MonoBehaviour {
 		}
 
 		position = spline.GetPoint(progress);
-		//position.Set (position.x, position.y, position.z);
-		Vector3 velocity = spline.GetVelocity (progress);
-
-		if (collidersCount == 1 || collidersCount == 3) {
-			//Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, transform.position));
-			constantSpeed = speed * (Vector3.Distance (col.transform.position, position) / velocity.magnitude);
-		} else if (collidersCount == 2) {
-			constantSpeed = speed * (.1f / velocity.magnitude);
-
-			float newDistance = Vector3.Distance (col.transform.position, position);
-			//Debug.Log ("Distance: " + newDistance);
-			if (lastDistance < newDistance) {
-				constantSpeed = 0;
-				accumulatedStopTime = 0;
-				collidersCount++;
-				//Debug.Log ("STOPS");
-				//Debug.Log ("STOPS AT STATION: " + currentStation);
-				setPassengerLocation();
-				openDoors();
-			}
-			lastDistance = newDistance;
-		} else {
-			constantSpeed = speed * (1f / velocity.magnitude);
-		}
 
 		transform.localPosition = position;
 		if (lookForward) {
 			transform.LookAt (position + spline.GetDirection(progress));
-			if (isSprite) {
-				transform.Rotate (-90f, 0f, 0f);
-				transform.Rotate (0f, -90f, 0f);
-			}
+			transform.Rotate (-90f, 0f, 0f);
+			transform.Rotate (0f, -90f, 0f);
+			//transform.right = position + spline.GetDirection (progress);
 		}
-
-		if (passenger != null) {
-			//passenger.transform.position = position;
-			passenger.gameObject.transform.position = new Vector3 (position.x, position.y, position.z);
-		}
+		//transform.localPosition = position;
+		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
+		//transform.Rotate (0f, 0f, angle2, Space.World);
+		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
+		//transform.Rotate (Vector3.forward * -direction.magnitude * rotationSpeed * Time.fixedDeltaTime);
+		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
+		//transform.Rotate (Vector3.forward * -direction.x * rotationSpeed * Time.fixedDeltaTime);
 	}
 
 	void OnTriggerEnter(Collider col) {
 
 		if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
 			(this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
-			
+
 			if (collidersCount == 0) {
 				// start decreasing speed
 				//Debug.Log ("ENTERS");
@@ -149,7 +117,7 @@ public class SplineWalker2 : MonoBehaviour {
 			passenger.resumeExecution ();
 		}*/
 		if (currentStation == player.getCurrentLocation ()) {
-			player.addTrain (this);
+			//player.addTrain (this);
 		}
 	}
 

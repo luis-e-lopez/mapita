@@ -156,7 +156,7 @@ public class BezierSpline : MonoBehaviour {
 			t -= i;
 			i *= 3;
 		}
-		return transform.TransformPoint(Bezier.GetPoint(points[i], points[i + 1], points[i + 2], points[i + 3], t));
+		return Bezier.GetPoint(points[i], points[i + 1], points[i + 2], points[i + 3], t);
 	}
 
 	public Vector3 GetVelocity2 (float t) {
@@ -171,7 +171,7 @@ public class BezierSpline : MonoBehaviour {
 			t -= i;
 			i *= 3;
 		}
-		return Bezier.GetFirstDerivative(points[i], points[i + 1], points[i + 2], points[i + 3], t) - transform.position;
+		return Bezier.GetFirstDerivative(points[i], points[i + 1], points[i + 2], points[i + 3], t) - transform.localPosition;
 	}
 
 	public Vector3 GetDirection2 (float t) {
