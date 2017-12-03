@@ -25,11 +25,13 @@ public class SplineWalker2D : MonoBehaviour {
 	private PlayerBehaviour passenger = null;
 	private PlayerBehaviour player = null;
 
+	private float acceleration;
+	private float accelerationTime = 1.5f;
+	private float currentAccelerationTime;
+	private float stationProgress; // 0.2500003f
+	private float startProgress;
+
 	void Start () {
-		/*position = spline.GetPoint2(progress);
-		transform.localPosition = new Vector3(position.x, position.y);
-		Vector3 direction = spline.GetDirection (progress);
-		transform.Rotate (Vector3.forward * -direction.x * rotationSpeed);*/
 
 		position = spline.GetPoint(progress);
 		transform.localPosition = position;
@@ -40,8 +42,51 @@ public class SplineWalker2D : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		if (constantSpeed == 0) {
+			accumulatedStopTime += Time.fixedDeltaTime;
+			if (accumulatedStopTime < stopTime) {
+				return;
+			}
+			closeDoors ();
+			currentStation = null;
+		}
+
 		if (goingForward) {
-			progress += Time.fixedDeltaTime * constantSpeed;
+			if (collidersCount == 1) {
+
+
+				if (progress >= stationProgress) {
+					currentAccelerationTime += Time.fixedDeltaTime;
+					if (currentAccelerationTime > accelerationTime) {
+						currentAccelerationTime = accelerationTime;
+						collidersCount = 0;
+					}
+
+					float velocity = acceleration * currentAccelerationTime;
+					float d = (velocity / 2f) * currentAccelerationTime;
+
+					progress = stationProgress + d;
+				} else {
+
+					currentAccelerationTime -= Time.fixedDeltaTime;
+					float velocity = acceleration * currentAccelerationTime;
+					float d = (velocity / 2f) * currentAccelerationTime;
+
+					progress = stationProgress - d;
+
+					if (currentAccelerationTime <= 0f || progress == stationProgress) {
+						currentAccelerationTime = 0;
+						accumulatedStopTime = 0;
+						constantSpeed = 0;
+					}
+				}
+
+			} else {
+				Vector3 velocity = spline.GetVelocity (progress); 
+				constantSpeed = speed / velocity.magnitude;
+				progress += Time.fixedDeltaTime * constantSpeed;
+			}
+
 			if (progress > 1f) {
 				if (mode == SplineWalkerMode.Once) {
 					progress = 1f;
@@ -56,7 +101,40 @@ public class SplineWalker2D : MonoBehaviour {
 			}
 		}
 		else {
-			progress -= Time.fixedDeltaTime * constantSpeed;
+			if (collidersCount == 1) {
+
+				if (progress > stationProgress) {
+					currentAccelerationTime -= Time.fixedDeltaTime;
+					float velocity = acceleration * currentAccelerationTime;
+					float d = (velocity / 2f) * currentAccelerationTime;
+
+					progress = stationProgress + d;
+
+					if (currentAccelerationTime <= 0f || progress == stationProgress) {
+						currentAccelerationTime = 0;
+						accumulatedStopTime = 0;
+						constantSpeed = 0;
+					}
+						
+				} else {
+
+					currentAccelerationTime += Time.fixedDeltaTime;
+					if (currentAccelerationTime > accelerationTime) {
+						currentAccelerationTime = accelerationTime;
+						collidersCount = 0;
+					}
+					float velocity = acceleration * currentAccelerationTime;
+					float d = (velocity / 2f) * currentAccelerationTime;
+
+
+					progress = stationProgress - d;
+				}
+
+			} else {
+				Vector3 velocity = spline.GetVelocity (progress); 
+				constantSpeed = speed / velocity.magnitude;
+				progress -= Time.fixedDeltaTime * constantSpeed;
+			}
 			if (progress < 0f) {
 				progress = -progress;
 				goingForward = true;
@@ -70,46 +148,32 @@ public class SplineWalker2D : MonoBehaviour {
 			transform.LookAt (position + spline.GetDirection(progress));
 			transform.Rotate (-90f, 0f, 0f);
 			transform.Rotate (0f, -90f, 0f);
-			//transform.right = position + spline.GetDirection (progress);
 		}
-		//transform.localPosition = position;
-		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
-		//transform.Rotate (0f, 0f, angle2, Space.World);
-		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
-		//transform.Rotate (Vector3.forward * -direction.magnitude * rotationSpeed * Time.fixedDeltaTime);
-		//transform.Translate (Vector2.up * speed * Time.fixedDeltaTime, Space.Self);
-		//transform.Rotate (Vector3.forward * -direction.x * rotationSpeed * Time.fixedDeltaTime);
 	}
 
 	void OnTriggerEnter(Collider col) {
 
-		if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
-			(this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
+		if (collidersCount == 0) {
+			if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
+			   (this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
 
-			if (collidersCount == 0) {
-				// start decreasing speed
-				//Debug.Log ("ENTERS");
-				//Debug.Log ("Starts decreasing speed. Position is " + transform.position + ", Col Position is " + col.transform.position);
-				//Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, transform.position));
-				this.col = col;
-				collidersCount++;
-			} else if (collidersCount == 1) {
-				//Debug.Log ("ENTERS STATION");
-				lastDistance = Vector3.Distance (col.transform.position, transform.position);
-				currentStation = col.gameObject.name;
-				//constantSpeed = 0;
-				//accumulatedStopTime = 0;
-				collidersCount++;
-			} else {
-				// do nothing
-				collidersCount = 0;
-			}
+				StationControl stationControl = col.transform.GetComponent<StationControl> ();
+				if (stationControl.spline == spline) {
+					stationProgress = stationControl.progress;
+					startProgress = progress;
 
-		} /*else {
-			constantSpeed = 0;
-			accumulatedStopTime = 0;
-		}*/
+					float velocity = ((stationProgress - startProgress) * 2f) / accelerationTime;
+					velocity = (velocity < 0) ? velocity * -1f : velocity;
+					acceleration = velocity / accelerationTime;
+					currentAccelerationTime = accelerationTime;
+
+					this.col = col;
+					collidersCount = 1;
+				}
+			} 
+		}
 	}
+		
 
 	private void openDoors() {
 		openedDoors = true;

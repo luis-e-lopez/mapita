@@ -8,6 +8,7 @@ public class ExecutionHandler : MonoBehaviour {
 
 	public Button playButton;
 	public Button restartButton;
+	public Button pauseButton;
 	public Image pointer;
 
 	private PlayerBehaviour player;
@@ -35,6 +36,10 @@ public class ExecutionHandler : MonoBehaviour {
 
 		restartButton.onClick.AddListener (delegate {
 			restart();
+		});
+
+		pauseButton.onClick.AddListener (delegate {
+			pause();
 		});
 
 		player = FindObjectOfType(typeof(PlayerBehaviour)) as PlayerBehaviour;
@@ -107,6 +112,10 @@ public class ExecutionHandler : MonoBehaviour {
 
 		player.restart ();
 		init ();
+	}
+
+	private void pause(){
+		GlobalProperties.isPaused = true;
 	}
 
 	private string getLineNumber(Transform command) {

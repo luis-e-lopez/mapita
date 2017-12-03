@@ -29,7 +29,7 @@ public class SplineWalker2 : MonoBehaviour {
 	void Start () {
 		position = spline.GetPoint(progress);
 		transform.localPosition = position;
-		constantSpeed = speed;
+		constantSpeed = speed / spline.GetVelocity (progress).magnitude;
 
 		player = (PlayerBehaviour)FindObjectOfType(typeof(PlayerBehaviour));
 	}
@@ -77,13 +77,17 @@ public class SplineWalker2 : MonoBehaviour {
 		Vector3 velocity = spline.GetVelocity (progress);
 
 		if (collidersCount == 1 || collidersCount == 3) {
-			//Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, transform.position));
+			if (this.gameObject.name == "Train Orange") {
+				Debug.Log ("Const Speed: " + constantSpeed);
+			}
 			constantSpeed = speed * (Vector3.Distance (col.transform.position, position) / velocity.magnitude);
+			if (this.gameObject.name == "Train Orange") {
+				Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, position) + ", velocity: " + velocity.magnitude + ", constant speed: " + constantSpeed);
+			}
 		} else if (collidersCount == 2) {
 			constantSpeed = speed * (.1f / velocity.magnitude);
 
 			float newDistance = Vector3.Distance (col.transform.position, position);
-			//Debug.Log ("Distance: " + newDistance);
 			if (lastDistance < newDistance) {
 				constantSpeed = 0;
 				accumulatedStopTime = 0;
@@ -95,7 +99,7 @@ public class SplineWalker2 : MonoBehaviour {
 			}
 			lastDistance = newDistance;
 		} else {
-			constantSpeed = speed * (1f / velocity.magnitude);
+			constantSpeed = speed / velocity.magnitude;
 		}
 
 		transform.localPosition = position;
@@ -120,27 +124,19 @@ public class SplineWalker2 : MonoBehaviour {
 			
 			if (collidersCount == 0) {
 				// start decreasing speed
-				//Debug.Log ("ENTERS");
-				//Debug.Log ("Starts decreasing speed. Position is " + transform.position + ", Col Position is " + col.transform.position);
-				//Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, transform.position));
 				this.col = col;
 				collidersCount++;
 			} else if (collidersCount == 1) {
-				//Debug.Log ("ENTERS STATION");
+				// enters station
 				lastDistance = Vector3.Distance (col.transform.position, transform.position);
 				currentStation = col.gameObject.name;
-				//constantSpeed = 0;
-				//accumulatedStopTime = 0;
 				collidersCount++;
 			} else {
 				// do nothing
 				collidersCount = 0;
 			}
 
-		} /*else {
-			constantSpeed = 0;
-			accumulatedStopTime = 0;
-		}*/
+		} 
 	}
 
 	private void openDoors() {
