@@ -42,6 +42,10 @@ public class SplineWalker2D : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		/*if (GlobalProperties.isPaused) {
+			return;
+		}*/
+
 		if (constantSpeed == 0) {
 			accumulatedStopTime += Time.fixedDeltaTime;
 			if (accumulatedStopTime < stopTime) {
@@ -49,41 +53,23 @@ public class SplineWalker2D : MonoBehaviour {
 			}
 			closeDoors ();
 			currentStation = null;
+			recalculateAcceleration ();
+			constantSpeed = 1f;
 		}
 
 		if (goingForward) {
 			if (collidersCount == 1) {
 
-
 				if (progress >= stationProgress) {
-					currentAccelerationTime += Time.fixedDeltaTime;
-					if (currentAccelerationTime > accelerationTime) {
-						currentAccelerationTime = accelerationTime;
-						collidersCount = 0;
-					}
-
-					float velocity = acceleration * currentAccelerationTime;
-					float d = (velocity / 2f) * currentAccelerationTime;
-
-					progress = stationProgress + d;
+					accelerate (goingForward);
 				} else {
-
-					currentAccelerationTime -= Time.fixedDeltaTime;
-					float velocity = acceleration * currentAccelerationTime;
-					float d = (velocity / 2f) * currentAccelerationTime;
-
-					progress = stationProgress - d;
-
-					if (currentAccelerationTime <= 0f || progress == stationProgress) {
-						currentAccelerationTime = 0;
-						accumulatedStopTime = 0;
-						constantSpeed = 0;
-					}
+					decelerate (goingForward);
 				}
 
 			} else {
-				Vector3 velocity = spline.GetVelocity (progress); 
-				constantSpeed = speed / velocity.magnitude;
+				//Vector3 velocity = spline.GetVelocity (progress); 
+				//constantSpeed = speed / velocity.magnitude;
+				constantSpeed = 0.04f;
 				progress += Time.fixedDeltaTime * constantSpeed;
 			}
 
@@ -104,35 +90,15 @@ public class SplineWalker2D : MonoBehaviour {
 			if (collidersCount == 1) {
 
 				if (progress > stationProgress) {
-					currentAccelerationTime -= Time.fixedDeltaTime;
-					float velocity = acceleration * currentAccelerationTime;
-					float d = (velocity / 2f) * currentAccelerationTime;
-
-					progress = stationProgress + d;
-
-					if (currentAccelerationTime <= 0f || progress == stationProgress) {
-						currentAccelerationTime = 0;
-						accumulatedStopTime = 0;
-						constantSpeed = 0;
-					}
-						
+					decelerate (goingForward);
 				} else {
-
-					currentAccelerationTime += Time.fixedDeltaTime;
-					if (currentAccelerationTime > accelerationTime) {
-						currentAccelerationTime = accelerationTime;
-						collidersCount = 0;
-					}
-					float velocity = acceleration * currentAccelerationTime;
-					float d = (velocity / 2f) * currentAccelerationTime;
-
-
-					progress = stationProgress - d;
+					accelerate (goingForward);
 				}
 
 			} else {
-				Vector3 velocity = spline.GetVelocity (progress); 
-				constantSpeed = speed / velocity.magnitude;
+				//Vector3 velocity = spline.GetVelocity (progress); 
+				//constantSpeed = speed / velocity.magnitude;
+				constantSpeed = 0.04f;
 				progress -= Time.fixedDeltaTime * constantSpeed;
 			}
 			if (progress < 0f) {
@@ -152,14 +118,14 @@ public class SplineWalker2D : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-
+		
 		if (collidersCount == 0) {
 			if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
 			   (this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
 
 				StationControl stationControl = col.transform.GetComponent<StationControl> ();
-				if (stationControl.spline == spline) {
-					stationProgress = stationControl.progress;
+				if (stationControl.shouldStop (spline)) {
+					stationProgress = stationControl.getPosition (spline);
 					startProgress = progress;
 
 					float velocity = ((stationProgress - startProgress) * 2f) / accelerationTime;
@@ -169,11 +135,91 @@ public class SplineWalker2D : MonoBehaviour {
 
 					this.col = col;
 					collidersCount = 1;
+
+					//
+					Vector3 vel = spline.GetVelocity (progress); 
+					constantSpeed = speed / vel.magnitude;
+					//progress += Time.fixedDeltaTime * constantSpeed;
+					Debug.Log (col.name);
+					Debug.Log ("Enter Velocity: " + constantSpeed);
+					Debug.Log ("Deceleration Velocity: " + velocity);
+
+					//
 				}
 			} 
 		}
 	}
+
+	/*void OnTriggerExit(Collider col) {
+
+		if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
+		    (this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
+
+			StationControl stationControl = col.transform.GetComponent<StationControl> ();
+			if (stationControl.shouldStop (spline)) {
+				collidersCount = 0;
+				//GlobalProperties.isPaused = true;
+				//Debug.Log("Exit Collider!");
+			}
+		}
+	}*/
+
+	private void recalculateAcceleration() {
+
+		StationControl stationControl = col.transform.GetComponent<StationControl> ();
+		float d = stationControl.getColliderExitPosition (spline, goingForward);
+		float velocity = ((stationProgress - d) * 2f) / accelerationTime;
+		velocity = (velocity < 0) ? velocity * -1f : velocity;
+		acceleration = velocity / accelerationTime;
+		//Debug.Log ("Recalculating " + acceleration + ", dist: " + d);
+	}
+
+	private void accelerate(bool goingForward) {
 		
+		currentAccelerationTime += Time.fixedDeltaTime;
+		if (currentAccelerationTime >= accelerationTime) {
+			currentAccelerationTime = accelerationTime;
+			collidersCount = 0;
+			//GlobalProperties.isPaused = true;
+			//Debug.Log("Accelerate finished!");
+
+			float vel = acceleration * currentAccelerationTime;
+			Vector3 velo = spline.GetVelocity (progress); 
+			constantSpeed = speed / velo.magnitude;
+			//progress += Time.fixedDeltaTime * constantSpeed;
+
+			Debug.Log ("Acceleration Velocity: " + vel);
+			Debug.Log ("Exit Velocity: " + constantSpeed);
+		}
+
+		float velocity = acceleration * currentAccelerationTime;
+		float d = (velocity / 2f) * currentAccelerationTime;
+
+		if (goingForward) {
+			progress = stationProgress + d;
+		} else {
+			progress = stationProgress - d;
+		}
+	}
+		
+	private void decelerate(bool goingForward) {
+		
+		currentAccelerationTime -= Time.fixedDeltaTime;
+		float velocity = acceleration * currentAccelerationTime;
+		float d = (velocity / 2f) * currentAccelerationTime;
+
+		if (goingForward) {
+			progress = stationProgress - d;
+		} else {
+			progress = stationProgress + d;
+		}
+
+		if (currentAccelerationTime <= 0f || progress == stationProgress) {
+			currentAccelerationTime = 0;
+			accumulatedStopTime = 0;
+			constantSpeed = 0;
+		}
+	}
 
 	private void openDoors() {
 		openedDoors = true;

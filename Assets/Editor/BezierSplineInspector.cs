@@ -80,7 +80,7 @@ public class BezierSplineInspector : Editor {
 	}
 
 	private void ShowDirections () {
-		Handles.color = Color.green;
+		Handles.color = Color.cyan;
 		Vector3 point = spline.GetPoint(0f);
 		Handles.DrawLine(point, point + spline.GetDirection(0f) * directionScale);
 		int steps = stepsPerCurve * spline.CurveCount;

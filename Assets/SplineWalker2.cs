@@ -26,6 +26,12 @@ public class SplineWalker2 : MonoBehaviour {
 	private PlayerBehaviour passenger = null;
 	private PlayerBehaviour player = null;
 
+	private float acceleration;
+	private float accelerationTime = 1.5f;
+	private float currentAccelerationTime;
+	private float stationProgress;
+	private float startProgress;
+
 	void Start () {
 		position = spline.GetPoint(progress);
 		transform.localPosition = position;
@@ -47,10 +53,25 @@ public class SplineWalker2 : MonoBehaviour {
 			}
 			closeDoors ();
 			currentStation = null;
+			recalculateAcceleration ();
+			constantSpeed = 1f;
 		}
 
 		if (goingForward) {
-			progress += Time.fixedDeltaTime * constantSpeed;
+			if (collidersCount == 1) {
+
+				if (progress >= stationProgress) {
+					accelerate (goingForward);
+				} else {
+					decelerate (goingForward);
+				}
+
+			} else {
+				Vector3 velocity = spline.GetVelocity (progress); 
+				constantSpeed = speed / velocity.magnitude;
+				progress += Time.fixedDeltaTime * constantSpeed;
+			}
+
 			if (progress > 1f) {
 				if (mode == SplineWalkerMode.Once) {
 					progress = 1f;
@@ -65,7 +86,19 @@ public class SplineWalker2 : MonoBehaviour {
 			}
 		}
 		else {
-			progress -= Time.fixedDeltaTime * constantSpeed;
+			if (collidersCount == 1) {
+
+				if (progress > stationProgress) {
+					decelerate (goingForward);
+				} else {
+					accelerate (goingForward);
+				}
+
+			} else {
+				Vector3 velocity = spline.GetVelocity (progress); 
+				constantSpeed = speed / velocity.magnitude;
+				progress -= Time.fixedDeltaTime * constantSpeed;
+			}
 			if (progress < 0f) {
 				progress = -progress;
 				goingForward = true;
@@ -73,35 +106,6 @@ public class SplineWalker2 : MonoBehaviour {
 		}
 
 		position = spline.GetPoint(progress);
-		//position.Set (position.x, position.y, position.z);
-		Vector3 velocity = spline.GetVelocity (progress);
-
-		if (collidersCount == 1 || collidersCount == 3) {
-			if (this.gameObject.name == "Train Orange") {
-				Debug.Log ("Const Speed: " + constantSpeed);
-			}
-			constantSpeed = speed * (Vector3.Distance (col.transform.position, position) / velocity.magnitude);
-			if (this.gameObject.name == "Train Orange") {
-				Debug.Log ("Distance: " + Vector3.Distance (col.transform.position, position) + ", velocity: " + velocity.magnitude + ", constant speed: " + constantSpeed);
-			}
-		} else if (collidersCount == 2) {
-			constantSpeed = speed * (.1f / velocity.magnitude);
-
-			float newDistance = Vector3.Distance (col.transform.position, position);
-			if (lastDistance < newDistance) {
-				constantSpeed = 0;
-				accumulatedStopTime = 0;
-				collidersCount++;
-				//Debug.Log ("STOPS");
-				//Debug.Log ("STOPS AT STATION: " + currentStation);
-				setPassengerLocation();
-				openDoors();
-			}
-			lastDistance = newDistance;
-		} else {
-			constantSpeed = speed / velocity.magnitude;
-		}
-
 		transform.localPosition = position;
 		if (lookForward) {
 			transform.LookAt (position + spline.GetDirection(progress));
@@ -119,24 +123,112 @@ public class SplineWalker2 : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 
-		if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
-			(this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
-			
-			if (collidersCount == 0) {
-				// start decreasing speed
+		if (collidersCount == 0) {
+			if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
+			   (this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
+
+				if (transform.name == "Train Red 2") {
+					//Debug.Log ("Collided on " + col.name);
+				}
+				StationControl stationControl = col.transform.GetComponent<StationControl> ();
+				if (stationControl.shouldStop (spline)) {
+					stationProgress = stationControl.getPosition (spline);
+					startProgress = progress;
+
+					float velocity = ((stationProgress - startProgress) * 2f) / accelerationTime;
+					velocity = (velocity < 0) ? velocity * -1f : velocity;
+					acceleration = velocity / accelerationTime;
+					currentAccelerationTime = accelerationTime;
+
+					this.col = col;
+					collidersCount = 1;
+
+					if (transform.name == "Train Red") {
+						//Debug.Log ("Distance " + (stationProgress - startProgress));
+					}
+				}
+
+				/*if (collidersCount == 0) {
 				this.col = col;
 				collidersCount++;
 			} else if (collidersCount == 1) {
-				// enters station
 				lastDistance = Vector3.Distance (col.transform.position, transform.position);
 				currentStation = col.gameObject.name;
 				collidersCount++;
 			} else {
-				// do nothing
 				collidersCount = 0;
-			}
+			}*/
 
-		} 
+			} 
+		}
+	}
+
+	/*void OnTriggerExit(Collider col) {
+
+		if ((this.gameObject.tag == "Local" && (col.tag == "Local Station" || col.tag == "Local and Express Station")) ||
+			(this.gameObject.tag == "Express" && col.tag == "Local and Express Station")) {
+
+			StationControl stationControl = col.transform.GetComponent<StationControl> ();
+			if (stationControl.shouldStop (spline)) {
+				collidersCount = 0;
+				//GlobalProperties.isPaused = true;
+				//Debug.Log("Exit Collider!");
+			}
+		}
+	}*/
+
+	private void recalculateAcceleration() {
+
+		StationControl stationControl = col.transform.GetComponent<StationControl> ();
+		float d = stationControl.getColliderExitPosition (spline, goingForward);
+		float velocity = ((stationProgress - d) * 2f) / accelerationTime;
+		velocity = (velocity < 0) ? velocity * -1f : velocity;
+		acceleration = velocity / accelerationTime;
+	}
+
+	private void accelerate(bool goingForward) {
+
+		currentAccelerationTime += Time.fixedDeltaTime;
+		if (currentAccelerationTime >= accelerationTime) {
+			currentAccelerationTime = accelerationTime;
+			collidersCount = 0;
+			if (transform.name == "Train Red") {
+				//Debug.Log ("Out of " + col.name + ", time: " + currentAccelerationTime + ", vel: " + (acceleration * currentAccelerationTime) + ", d: " + (acceleration * currentAccelerationTime / 2f) * currentAccelerationTime);
+				//GlobalProperties.isPaused = true;
+			}
+		}
+
+		float velocity = acceleration * currentAccelerationTime;
+		float d = (velocity / 2f) * currentAccelerationTime;
+
+		if (goingForward) {
+			progress = stationProgress + d;
+		} else {
+			progress = stationProgress - d;
+		}
+	}
+
+	private void decelerate(bool goingForward) {
+
+		currentAccelerationTime -= Time.fixedDeltaTime;
+		float velocity = acceleration * currentAccelerationTime;
+		float d = (velocity / 2f) * currentAccelerationTime;
+
+		if (goingForward) {
+			progress = stationProgress - d;
+		} else {
+			progress = stationProgress + d;
+		}
+
+		if (currentAccelerationTime <= 0f || progress == stationProgress) {
+			currentAccelerationTime = 0f;
+			accumulatedStopTime = 0f;
+			constantSpeed = 0f;
+			if (transform.name == "Train Red 2") {
+				//Debug.Log ("stopping on " + col.name);
+
+			}
+		}
 	}
 
 	private void openDoors() {

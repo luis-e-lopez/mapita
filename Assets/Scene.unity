@@ -1837,8 +1837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spline: {fileID: 2098096500}
-  progress: 0
+  splines:
+  - {fileID: 2107805044}
 --- !u!136 &225455255
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1848,7 +1848,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 0.6
   m_Height: 0.1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
@@ -1901,7 +1901,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 225455251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.56, y: 2.27, z: 0}
+  m_LocalPosition: {x: 3.27, y: 1.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2345,11 +2345,8 @@ GameObject:
   - component: {fileID: 269583570}
   - component: {fileID: 269583569}
   - component: {fileID: 269583568}
-  - component: {fileID: 269583574}
-  - component: {fileID: 269583573}
-  - component: {fileID: 269583572}
-  - component: {fileID: 269583571}
   - component: {fileID: 269583567}
+  - component: {fileID: 269583571}
   m_Layer: 0
   m_Name: Station4
   m_TagString: Local and Express Station
@@ -2379,9 +2376,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 269583566}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -2440,58 +2437,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &269583571
-CapsuleCollider:
+--- !u!114 &269583571
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 269583566}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.15, y: -0.26, z: 0.4}
---- !u!136 &269583572
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 269583566}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.18, y: 0.25, z: 0.4}
---- !u!136 &269583573
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 269583566}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.3, y: -0.21, z: 0.4}
---- !u!136 &269583574
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 269583566}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.24, y: 0.16, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 2107805044}
+  - {fileID: 2098096500}
 --- !u!1 &305482395
 GameObject:
   m_ObjectHideFlags: 0
@@ -4448,11 +4407,8 @@ GameObject:
   - component: {fileID: 731252919}
   - component: {fileID: 731252918}
   - component: {fileID: 731252917}
-  - component: {fileID: 731252923}
-  - component: {fileID: 731252922}
-  - component: {fileID: 731252921}
-  - component: {fileID: 731252920}
   - component: {fileID: 731252916}
+  - component: {fileID: 731252920}
   m_Layer: 0
   m_Name: Station6
   m_TagString: Local and Express Station
@@ -4482,9 +4438,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 731252915}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -4543,58 +4499,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &731252920
-CapsuleCollider:
+--- !u!114 &731252920
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 731252915}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.24, y: -0.15, z: 0.4}
---- !u!136 &731252921
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 731252915}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.24, y: 0.18, z: 0.4}
---- !u!136 &731252922
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 731252915}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.33, y: 0.03, z: 0.4}
---- !u!136 &731252923
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 731252915}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.34, y: -0.06, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 2107805044}
+  - {fileID: 2098096500}
 --- !u!1 &777929001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6217,7 +6135,6 @@ GameObject:
   - component: {fileID: 1067718129}
   - component: {fileID: 1067718127}
   - component: {fileID: 1067718128}
-  - component: {fileID: 1067718126}
   - component: {fileID: 1067718125}
   m_Layer: 0
   m_Name: Station8
@@ -6226,32 +6143,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &1067718125
-CapsuleCollider:
+--- !u!114 &1067718125
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1067718124}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.18, y: -0.34, z: 0.4}
---- !u!136 &1067718126
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1067718124}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.21, y: 0.35, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 1998632212}
 --- !u!54 &1067718127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6276,10 +6180,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &1067718129
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6568,7 +6472,6 @@ GameObject:
   - component: {fileID: 1089889272}
   - component: {fileID: 1089889271}
   - component: {fileID: 1089889270}
-  - component: {fileID: 1089889275}
   - component: {fileID: 1089889274}
   m_Layer: 0
   m_Name: Station5
@@ -6601,7 +6504,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -6660,32 +6563,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1089889274
-CapsuleCollider:
+--- !u!114 &1089889274
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1089889269}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.17, y: -0.32, z: 0.4}
---- !u!136 &1089889275
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1089889269}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.18, y: 0.32, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 1998632212}
 --- !u!1 &1098750331
 GameObject:
   m_ObjectHideFlags: 0
@@ -7063,11 +6953,8 @@ GameObject:
   - component: {fileID: 1149870708}
   - component: {fileID: 1149870707}
   - component: {fileID: 1149870706}
-  - component: {fileID: 1149870710}
-  - component: {fileID: 1149870709}
-  - component: {fileID: 1149870712}
-  - component: {fileID: 1149870711}
   - component: {fileID: 1149870705}
+  - component: {fileID: 1149870709}
   m_Layer: 0
   m_Name: Station3
   m_TagString: Local and Express Station
@@ -7097,9 +6984,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1149870704}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -7158,58 +7045,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1149870709
-CapsuleCollider:
+--- !u!114 &1149870709
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1149870704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.02, y: -0.33, z: 0.4}
---- !u!136 &1149870710
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1149870704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.06, y: 0.39, z: 0.4}
---- !u!136 &1149870711
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1149870704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.17, y: -0.33, z: 0.4}
---- !u!136 &1149870712
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1149870704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.21, y: 0.33, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 2107805044}
+  - {fileID: 2098096500}
 --- !u!1 &1168987722
 GameObject:
   m_ObjectHideFlags: 0
@@ -8719,11 +8568,8 @@ GameObject:
   - component: {fileID: 1445080712}
   - component: {fileID: 1445080711}
   - component: {fileID: 1445080710}
-  - component: {fileID: 1445080715}
-  - component: {fileID: 1445080714}
-  - component: {fileID: 1445080717}
-  - component: {fileID: 1445080716}
   - component: {fileID: 1445080713}
+  - component: {fileID: 1445080714}
   m_Layer: 0
   m_Name: Station1
   m_TagString: Local and Express Station
@@ -8738,9 +8584,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1445080709}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -8814,58 +8660,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &1445080714
-CapsuleCollider:
+--- !u!114 &1445080714
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1445080709}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.31, y: -0.18, z: 0.4}
---- !u!136 &1445080715
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1445080709}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.27, y: 0.15, z: 0.4}
---- !u!136 &1445080716
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1445080709}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.15, y: 0.27, z: 0.4}
---- !u!136 &1445080717
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1445080709}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.13, y: -0.24, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 2107805044}
+  - {fileID: 666186531}
 --- !u!1 &1450419488
 GameObject:
   m_ObjectHideFlags: 0
@@ -9953,10 +9761,8 @@ GameObject:
   - component: {fileID: 1582828462}
   - component: {fileID: 1582828461}
   - component: {fileID: 1582828460}
-  - component: {fileID: 1582828465}
-  - component: {fileID: 1582828464}
-  - component: {fileID: 1582828463}
   - component: {fileID: 1582828459}
+  - component: {fileID: 1582828463}
   m_Layer: 0
   m_Name: Station7
   m_TagString: Local and Express Station
@@ -9986,9 +9792,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1582828458}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.4}
@@ -10047,45 +9853,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1582828463
-CapsuleCollider:
+--- !u!114 &1582828463
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1582828458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.09, y: -0.3, z: 0.4}
---- !u!136 &1582828464
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1582828458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.06, y: -0.3, z: 0.4}
---- !u!136 &1582828465
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1582828458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.09, y: 0.22, z: 0.4}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 666186531}
+  - {fileID: 2107805044}
 --- !u!1 &1585490865
 GameObject:
   m_ObjectHideFlags: 0
@@ -13510,7 +13291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 2107805044}
-  speed: 0.37
+  speed: 0.2
   lookForward: 1
   rotationSpeed: 100
   mode: 2
@@ -14118,7 +13899,6 @@ GameObject:
   - component: {fileID: 2122928477}
   - component: {fileID: 2122928476}
   - component: {fileID: 2122928475}
-  - component: {fileID: 2122928481}
   - component: {fileID: 2122928479}
   m_Layer: 0
   m_Name: Station2
@@ -14149,12 +13929,12 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2122928474}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.09
+  m_Radius: 0.6
   m_Height: 1
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &2122928477
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14210,29 +13990,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2122928479
-CapsuleCollider:
+--- !u!114 &2122928479
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2122928474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: -0.1, y: -0.3, z: 0.4}
---- !u!136 &2122928481
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2122928474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 1
-  m_Direction: 2
-  m_Center: {x: 0.14, y: 0.33, z: 0.39999998}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd80cbd9f25445bf86cc4768ffc5a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splines:
+  - {fileID: 1998632212}
+  - {fileID: 2107805044}

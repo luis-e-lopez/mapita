@@ -60,7 +60,6 @@ public class ExecutionHandler : MonoBehaviour {
 	}
 
 	private void play () {
-		Debug.Log ("Button clicked!");
 
 		int childCount = this.transform.childCount;
 		string[][] steps = new string[childCount][];
