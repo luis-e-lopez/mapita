@@ -29,4 +29,7 @@ public class GLLines : MonoBehaviour {
 	void Example() {
 		startVertex = new Vector3(0, 0, 0);
 	}
+	void Test() {
+		startVertex = new Vector3(1, 2, 3);
+	}
 }
