@@ -9,7 +9,7 @@ public class GLLines : MonoBehaviour {
 		mousePos = Input.mousePosition;
 		if (Input.GetKeyDown(KeyCode.Space))
 			startVertex = new Vector3(mousePos.x / Screen.width, mousePos.y / Screen.height, 0);
-
+	// commented
 	}
 	void OnPostRender() {
 		if (!mat) {
